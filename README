@@ -1,0 +1,72 @@
+Stanca Aurelian Rares 324CB - Tema 2 PC - Mai 2021
+
+Structura o organizez astfel: in server am doar un vector de
+clienti care la randul lor retin:
+    - id-ul;
+    - socket-ul;
+    - statusul de connected (true/false);
+
+    - un vector de topicuri subscribedTopics care retine topicurile
+        la care e abonat clientul;
+
+    - un vector de datagrame sfTopics care are rolul de un fel de coada;
+        daca clientul s-a abonat la un topic cu sf = 1 si nu e conectat
+        dau push_back la topic-ul ala ca sa il trimit cand se reconecteaza.
+
+Structura de topic contine doar numele si un boolean pentru sf;
+
+Forwarding-ul pachetelor care vin de la clientii udp se realizeaza prin
+trimiterea unei structuri datagram care contine toate informatiile primite
+formatate anterior cu functia formatTopic.
+
+Inainte ca serverul sa primeasca comenzi e.g. subscribe/unsubscribe trimit
+ID ul clientului printr-o serie de mesaje (serverPreamble/clientPreamble).
+Nu faceam atat de complicat si trimiteam direct ID-ul mai usor, dar asta este.
+
+Conversatia pe care o are serverul o are cu clientul este urmatoarea:
+
+    clientul C7 vrea sa se conecteze la server ->
+        -> trimite la server "I would like to connect!"
+
+    serverul ii raspunde cu -> "Send me your ID!"
+
+    clientul raspunde cu -> "My ID is: C7"
+
+    serverul ii raspunde in final cu -> "You are connected!"
+
+N-am stiut cum sa fac strcmp pe "My ID is: %s" asa ca am folosit
+strncmp pentru primele 10 caractere :(
+
+La randul lor functiile astea returneaza niste valori importante,
+pe care le folosesc sa imi dau seama de starea clientului:
+
+    serverPreamble returneaza -1 if an error was encountered
+                               0 if an old client connected
+                               1 if a new client connected
+                               2 if the client is already connected
+
+    clientPreamble returneaza -1 if and error was encountered
+                               1 altfel
+
+Sper ca e ok pentru ca am folosit "conversatia" asta intre server si
+client ca sa obtin ID-ul clientului. Chestia asta a venit de la faptul
+ca am vrut sa lucrez cat mai sigur sa nu fac chestii grabite.
+
+Tododata am folosit multe functii ajutatoare:
+
+- toate functiile send<...>() trimit mesaje de control, ca sa ma asigur
+    eu fie in server fie in client ca au ajuns ok informatiile pe care
+    le trimit;
+- getClientX() imi returneaza clientul din lista de clienti in functie
+    de X e.g. ID/socket;
+
+
+Feedback:
+- misto rau tema, mi-a placut mult;
+- Radu multumesc mult ca inregistrezi laboratoarele tale, predai super.
+
+mai am si niste intrebari:
+- de ce imi pica netul cand opream executia testului quickflow?
+- cand m-am apucat la inceput de tema si rulam ./server <port> procesul
+    serverului imi consuma memoria unui intreg procesor 100%. acum nu mai
+    am problema asta, dar tot sunt curios de ce se intampla.
