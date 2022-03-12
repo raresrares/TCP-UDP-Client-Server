@@ -59,14 +59,3 @@ Tododata am folosit multe functii ajutatoare:
     le trimit;
 - getClientX() imi returneaza clientul din lista de clienti in functie
     de X e.g. ID/socket;
-
-
-Feedback:
-- misto rau tema, mi-a placut mult;
-- Radu multumesc mult ca inregistrezi laboratoarele tale, predai super.
-
-mai am si niste intrebari:
-- de ce imi pica netul cand opream executia testului quickflow?
-- cand m-am apucat la inceput de tema si rulam ./server <port> procesul
-    serverului imi consuma memoria unui intreg procesor 100%. acum nu mai
-    am problema asta, dar tot sunt curios de ce se intampla.
